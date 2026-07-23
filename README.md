@@ -69,17 +69,54 @@ A aplicação ficará disponível em:
 http://localhost:5000
 ```
 
+## 🚀 Evolução do Projeto
+
+Este projeto está sendo desenvolvido em etapas, com foco na adoção de boas práticas de containerização, otimização de imagens e segurança de containers.
+
+### ✅ Etapa 1 – Containerização da aplicação
+
+- Criação do Dockerfile
+- Containerização da aplicação Flask
+- Execução da aplicação utilizando Docker
+
+### ✅ Etapa 2 – Integração com Redis
+
+- Configuração do Redis como serviço externo
+- Comunicação entre containers utilizando Docker Network
+- Persistência do contador de acessos
+
+### ✅ Etapa 3 – Docker Multi-stage Build
+
+O Dockerfile foi refatorado utilizando **Docker Multi-stage Build**, separando o ambiente de construção do ambiente de execução da aplicação.
+
+#### Benefícios obtidos
+
+- Redução significativa do tamanho da imagem
+- Melhor organização do Dockerfile
+- Menor superfície de ataque
+- Preparação para utilização de imagens Chainguard
+
+### 📊 Comparativo
+
+| Dockerfile | Tamanho |
+|------------|---------:|
+| Versão inicial | **1,13 GB** |
+| Multi-stage Build | **125 MB** |
+
+**Redução aproximada de 89% no tamanho da imagem.**
+
 ---
 
 ## 🛣️ Roadmap
 
 - [x] Containerização da aplicação
 - [x] Integração com Redis
-- [ ] Docker Multi-stage
-- [ ] Imagem Chainguard
+- [x] Docker Multi-stage Build
+- [ ] Migração para imagem Chainguard
 - [ ] Análise de vulnerabilidades com Trivy
 - [ ] Assinatura de imagens com Cosign
 - [ ] Publicação da imagem no GitHub Container Registry (GHCR)
+
 
 ---
 
@@ -91,9 +128,6 @@ Este projeto tem como objetivo praticar:
 - Boas práticas na criação de imagens
 - Redução da superfície de ataque
 - Segurança de containers
-- Supply Chain Security
-- Automação de pipelines
-- DevSecOps
 
 ---
 
@@ -101,4 +135,4 @@ Este projeto tem como objetivo praticar:
 
 Aplicação baseada no desafio **Giropops Password Generator**, desenvolvido pela LinuxTips.
 
-A evolução deste repositório concentra-se nas práticas de Docker, DevSecOps e segurança de containers.
+A evolução deste repositório concentra-se nas práticas de Docker e segurança de containers.
