@@ -1,5 +1,10 @@
 # 🔐 Gerador de senhas
 
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-7-red?logo=redis&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 Projeto desenvolvido durante o desafio da LinuxTips com foco na aplicação de boas práticas de Docker e DevSecOps.
 
 O objetivo deste repositório é evoluir uma aplicação Flask utilizando técnicas modernas de containerização, redução de vulnerabilidades e segurança.
