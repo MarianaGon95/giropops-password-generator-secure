@@ -110,6 +110,29 @@ O Dockerfile foi refatorado utilizando **Docker Multi-stage Build**, separando o
 
 **Redução aproximada de 89% no tamanho da imagem.**
 
+### ✅ Etapa 4 – Migração para Chainguard
+
+O Dockerfile foi atualizado para utilizar **Chainguard Images**, mantendo a estratégia de **Docker Multi-stage Build** e separando o ambiente de construção do ambiente de execução da aplicação.
+
+#### Benefícios obtidos
+
+- Utilização de imagens minimalistas
+- Redução da superfície de ataque
+- Separação entre ambiente de build e runtime
+- Imagem final menor
+- Utilização de ambiente virtual Python (`venv`)
+- Remoção da imagem `-dev` do ambiente final
+
+### 📊 Comparativo
+
+| Dockerfile | Tamanho |
+| ---------- | -------: |
+| Versão inicial | **1,13 GB** |
+| Multi-stage Build | **125 MB** |
+| Chainguard | **85,8 MB** |
+
+**Redução aproximada de 92% no tamanho da imagem em relação à versão inicial.**
+
 ---
 
 ## 🛣️ Roadmap
@@ -117,7 +140,7 @@ O Dockerfile foi refatorado utilizando **Docker Multi-stage Build**, separando o
 - [x] Containerização da aplicação
 - [x] Integração com Redis
 - [x] Docker Multi-stage Build
-- [ ] Migração para imagem Chainguard
+- [x] Migração para imagem Chainguard
 - [ ] Análise de vulnerabilidades com Trivy
 - [ ] Assinatura de imagens com Cosign
 - [ ] Publicação da imagem no GitHub Container Registry (GHCR)
