@@ -1,13 +1,21 @@
-FROM python:3.13 AS builder
+FROM cgr.dev/chainguard/python:latest-dev AS builder
+
 WORKDIR /app
+
+RUN python -m venv /app/venv
+
 COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
+FROM cgr.dev/chainguard/python:latest
 
-FROM python:3.13-slim
 WORKDIR /app
-COPY --from=builder /install /usr/local 
-COPY . . 
+
+COPY --from=builder /app /app
+
 EXPOSE 5000
-CMD [ "python", "app.py" ]
+
+ENTRYPOINT ["/app/venv/bin/python", "/app/app.py"]
