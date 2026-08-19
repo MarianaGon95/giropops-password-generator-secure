@@ -29,6 +29,7 @@ O objetivo deste repositório é evoluir uma aplicação Flask utilizando técni
 ├── Dockerfile
 ├── .dockerignore
 ├── .gitignore
+├── sbom.json
 └── README.md
 ```
 
@@ -132,6 +133,69 @@ O Dockerfile foi atualizado para utilizar **Chainguard Images**, mantendo a estr
 | Chainguard | **85,8 MB** |
 
 **Redução aproximada de 92% no tamanho da imagem em relação à versão inicial.**
+---
+✅ Etapa 5 – Análise de vulnerabilidades com Trivy
+
+A imagem Chainguard foi analisada utilizando o Trivy, ferramenta de segurança utilizada para identificar vulnerabilidades conhecidas em imagens de containers e dependências da aplicação.
+
+A análise inicial foi realizada na imagem:
+
+giropops-chainguard:1.0
+
+O scan identificou uma vulnerabilidade no Flask 3.0.3:
+
+CVE-2026-27205
+Severity: LOW
+Fixed Version: 3.1.3
+
+A dependência foi atualizada no requirements.txt:
+
+Flask==3.1.3
+
+Uma nova imagem foi construída:
+
+giropops-chainguard:1.1
+
+Após a reconstrução, um novo scan foi executado:
+
+trivy image --scanners vuln giropops-chainguard:1.1
+
+Resultado
+Severidade	Antes 1.0	  Depois 1.1
+CRITICAL	        0    	  0
+HIGH	            2	      2 
+MEDIUM	          1   	  1
+LOW	              1	      0
+
+A vulnerabilidade do Flask foi eliminada após a atualização de 3.0.3 → 3.1.3.
+
+Durante a análise, o Trivy também reportou msgpack e setuptools. Entretanto, esses pacotes não estavam presentes no ambiente Python da imagem, conforme validação realizada através do pip list e importlib.
+
+O próprio Trivy apresentou o seguinte alerta durante a análise:
+
+Third-party SBOM may lead to inaccurate vulnerability detection
+
+Por esse motivo, os findings foram investigados antes de qualquer alteração adicional nas dependências.
+
+🔎 Geração de SBOM
+
+Também foi gerado um SBOM (Software Bill of Materials) utilizando o Trivy:
+
+trivy image \
+  --format cyclonedx \
+  --output sbom.json \
+  giropops-chainguard:1.1
+
+O arquivo sbom.json foi gerado com sucesso e utilizado como parte da validação dos componentes presentes na imagem.
+
+Benefícios obtidos
+Introdução de análise automatizada de vulnerabilidades
+Identificação e correção de vulnerabilidade real na aplicação
+Validação da imagem após a correção
+Geração de SBOM
+Prática de investigação de falsos positivos
+Maior visibilidade sobre dependências da aplicação
+Integração de práticas de segurança ao ciclo de build
 
 ---
 
@@ -141,7 +205,7 @@ O Dockerfile foi atualizado para utilizar **Chainguard Images**, mantendo a estr
 - [x] Integração com Redis
 - [x] Docker Multi-stage Build
 - [x] Migração para imagem Chainguard
-- [ ] Análise de vulnerabilidades com Trivy
+- [x] Análise de vulnerabilidades com Trivy
 - [ ] Assinatura de imagens com Cosign
 - [ ] Publicação da imagem no GitHub Container Registry (GHCR)
 
